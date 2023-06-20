@@ -2,54 +2,134 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body{
-    font-family: "Poppins",sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .container{
-    width: 350px;
     background-color: #fff;
+    width: 350px;
 }
 
-.btn-container{
+.container :where(.btn-container, header, .all-colors){
     display: flex;
+    align-items: center;
+    border-radius: 0 0 35px 35px;
+}
+
+.container .btn-container{
+    padding: 35px 0;
+    background-color: #dcf9fe;
     justify-content: center;
-    gap: 10px;
-    background-color: #DAF5FF;
-    border-radius: 0 0 30px 30px;
-    padding: 30px 40px;
+    position: relative;
+}
+
+.btn-container .pick-btn{
+    margin-right: 8px;
 }
 
 .btn-container button{
-    padding: 8px 12px;
+    border: none;
+    outline: none;
     color: #fff;
-    background-color: #4c7ad6;
-    border: 0;
-    outline: 0;
-    border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
-    letter-spacing: 0.5px;
+    padding: 6px 12px;
+    background-color: #4393a0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-container button{
+    background-color: #028fb2ac;
 }
 
 .btn-container button:hover{
-    background-color: #3a6fd9;
-}
-
-header{
-    display: flex;
-    justify-content: space-between;
-    font-size: 15px;
+    background-color: #0c738dac;
 }
 
 .color-list{
-    padding: 15px;
+    margin: 10px 15px;
 }
 
-.all-colors{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 10px;
+.color-list header{
+    justify-content: space-between;
+}
+
+header .title{
+    font-size: 1rem;
+}
+
+header .clear-btn{
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.color-list.hide{
+    display: none;
+}
+
+.color-list .all-colors{
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 10px 0 0;
+}
+
+.all-colors .color{
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: calc(100% / 3);
+}
+
+.all-colors .box{
+    height: 22px;
+    width: 22px;
+    margin-right: 3px;
+    border-radius: 3px;
+}
+
+.all-colors .color span{
+    font-size: 0.86rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.popup-container{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-size: 12px;
+    width: 280px;
+    position: absolute;
+    background: #fff;
+    top: 4%;
+    left: 4.5%;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+
+.popupColorBox{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.HexBox span:first-child, .rgbBox span:first-child{
+    font-weight: 600;
+    margin-left: -50px;
+}
+
+.HexBox span:last-child, .rgbBox span:last-child{
+    font-size: 11px;
+}
+
+.crossBox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cross{
+    cursor: pointer;
+    font-weight: 600;
 }
