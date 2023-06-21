@@ -20,7 +20,6 @@
     padding: 35px 0;
     background-color: #dcf9fe;
     justify-content: center;
-    position: relative;
 }
 
 .btn-container .pick-btn{
@@ -64,7 +63,7 @@ header .clear-btn{
     font-size: 0.9rem;
 }
 
-.color-list.hide{
+.hide{
     display: none;
 }
 
@@ -95,41 +94,50 @@ header .clear-btn{
 }
 
 .popup-container{
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    font-size: 12px;
-    width: 280px;
-    position: absolute;
-    background: #fff;
-    top: 4%;
-    left: 4.5%;
-    border-radius: 10px;
-    justify-content: space-between;
-}
-
-.popupColorBox{
-    width: 40px;
-    height: 40px;
+    position: fixed;
+    top: 52px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #fff;
     border-radius: 5px;
-    margin-right: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
 }
 
-.HexBox span:first-child, .rgbBox span:first-child{
-    font-weight: 600;
-    margin-left: -50px;
+.popup-content{
+    padding: 20px;
 }
 
-.HexBox span:last-child, .rgbBox span:last-child{
-    font-size: 11px;
+.color-info{
+     display: flex; 
+    align-items: center;
+} 
+
+.color-box{
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 10px; 
 }
 
-.crossBox{
-    display: flex;
-    justify-content: space-between;
+.color-value{
+     display: flex;
+    align-items: center;
+    margin-bottom: 5px; 
 }
 
-.cross{
+.label{
+     font-weight: bold;
+    margin-right: 5px; 
+}
+
+.val{
     cursor: pointer;
-    font-weight: 600;
+}
+
+span.cross{
+     font-size: 14px;
+    cursor: pointer;
+    float: right
 }

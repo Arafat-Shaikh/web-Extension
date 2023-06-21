@@ -8,30 +8,47 @@ const pickColor = document.querySelector(".pick-btn");
 let storedColor = JSON.parse(localStorage.getItem("colorVal")) || [];
 let openedPopup = null;
 
+
 const showPopup = (color)=>{
   const popupEl = document.createElement("div");
   popupEl.classList.add("popup-container");
-  popupEl.innerHTML = 
-    `
-        <span style="background-color: ${color}" class="popupColorBox"></span>
-
-        <div class="hexAndRgb">
-            <div class="crossBox">
-                <div class="HexBox">
-                    <span>Hex : </span>
-                    <span>${color}</span>
+  popupEl.innerHTML = `
+        <div class="popup-content">
+            <span class="cross">x</span>
+            <div class="color-info">
+                <div class="color-box" style="background: ${color};"></div>
+                <div class="color-details">
+                    <div class="color-value">
+                        <span class="label">Hex:</span>
+                        <span class="val hex" data-color="${color}">${color}</span>
+                    </div>
+                    <div class="color-value">
+                        <span class="label">RGB:</span>
+                        <span class="val rgb" data-color="${color}">${hexToRgb(color)}</span>
+                    </div>
                 </div>
-                <span class="cross">x</span>
-            </div>
-           
-            <div class="rgbBox">
-                <span>RGB : </span>
-                <span>${hexToRgb(color)}</span>
             </div>
         </div>
-    `
-        
-        return popupEl;           
+    `;
+    
+    
+        const crossBtn = popupEl.querySelector(".cross");
+        crossBtn.addEventListener("click",()=>{
+            document.body.removeChild(openedPopup);
+            openedPopup = null;
+        })
+
+        const colorval = popupEl.querySelectorAll(".val");
+        colorval.forEach((btn)=>{
+            btn.addEventListener("click",(e)=>{
+                const text = e.currentTarget.innerText;
+                copyToClipBoard(text,e.currentTarget);
+            })
+        })
+    
+    
+    return popupEl;           
+
 }
 
 const showColors = ()=>{
@@ -52,22 +69,21 @@ const showColors = ()=>{
             }
                 const popup = showPopup(color);
                 document.body.appendChild(popup);
-                openedPopup = popup;
-                console.log(openedPopup);
-            
+                openedPopup = popup;            
 
         })
     })
+
+    const colorList = document.querySelector(".color-list");
+    colorList.classList.toggle("hide",storedColor.length === 0);
 }
 
-showColors();
     
 
 const activateColorPicker = async () =>{
     document.body.style.display = "none";
     try{
         let {sRGBHex} = await new EyeDropper().open();
-        console.log(sRGBHex);
         if(!(storedColor.includes(sRGBHex))){
             storedColor.push(sRGBHex);
             localStorage.setItem("colorVal",JSON.stringify(storedColor));
@@ -76,8 +92,7 @@ const activateColorPicker = async () =>{
 
     }
     catch(error){
-        console.log(error.name);
-        console.log(error.message);
+        alert("Failed to pick color");
     }
     finally{
         document.body.style.display = "block"
@@ -92,15 +107,43 @@ const hexToRgb = (hex) => {
     return `rgb(${r}, ${g}, ${b})`;
 };
    
+const copyToClipBoard = async (text,element) =>{
+    try{
+        await navigator.clipboard.writeText(text);
+        element.innerHTML = "Copied";
+
+        setTimeout(()=>{
+            element.innerText = text;
+        },1000)
+    }catch(err){
+        alert("Failed to copy text");
+    }
+
+}
+
+const exportFile = () =>{
+    const stringColors = storedColor.join("/n");
+    const blobObject = new Blob([stringColors],{type: "text/plain"});
+    const url = URL.createObjectURL(blobObject);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Color.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+}
 
 
+pickColor.addEventListener("click",activateColorPicker);
+exportBtn.addEventListener("click",exportFile);
 
-pickColor.addEventListener("click",()=>{
-    activateColorPicker();
-})
 
 clearBtn.addEventListener("click",()=>{
-    localStorage.clear("colorVal")
+    localStorage.removeItem("colorVal")
     storedColor = [];
-    openedPopup = null;
+    showColors();
 })
+
+showColors();
